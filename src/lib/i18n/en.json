@@ -1,0 +1,77 @@
+{
+	"nav": {
+		"home": "Home",
+		"projects": "Projects",
+		"about": "About",
+		"contact": "Contact"
+	},
+	"hero": {
+		"greeting": "Hi, I'm",
+		"name": "Chinguun Vanchinsuren",
+		"title": "Frontend Engineer",
+		"subtitle": "Flutter · Next.js · Vue.js",
+		"cta": "View Projects",
+		"contact": "Get in Touch"
+	},
+	"home": {
+		"featured": "Featured Projects",
+		"featuredDesc": "Selected work that showcases my skills and experience",
+		"stats": {
+			"projects": "Projects Completed",
+			"experience": "Years Experience",
+			"clients": "Happy Clients",
+			"technologies": "Technologies"
+		}
+	},
+	"projects": {
+		"title": "Projects",
+		"description": "A collection of projects I've built and contributed to",
+		"all": "All",
+		"viewProject": "View Project",
+		"techStack": "Tech Stack",
+		"features": "Key Features",
+		"noProjects": "No projects found",
+		"backToProjects": "Back to Projects"
+	},
+	"about": {
+		"title": "About Me",
+		"intro": "Hi, I'm Chinguun, a Frontend Engineer passionate about building performant, user-friendly web and mobile applications.",
+		"experience": "Experience",
+		"education": "Education",
+		"skills": "Skills & Technologies",
+		"achievements": "Achievements",
+		"languages": "Languages",
+		"contact": "Get in Touch"
+	},
+	"contact": {
+		"title": "Contact Me",
+		"description": "Have a project in mind? Let's work together.",
+		"form": {
+			"name": "Name",
+			"email": "Email",
+			"message": "Message",
+			"send": "Send Message",
+			"sending": "Sending...",
+			"success": "Message sent successfully!",
+			"error": "Failed to send. Please try again."
+		},
+		"info": {
+			"email": "chinguunv@gmail.com",
+			"phone": "95247512",
+			"location": "Ulaanbaatar, Mongolia"
+		}
+	},
+	"footer": {
+		"copyright": "All rights reserved.",
+		"madeWith": "Built with Next.js & Tailwind CSS"
+	},
+	"notFound": {
+		"title": "Page Not Found",
+		"description": "The page you're looking for doesn't exist.",
+		"backHome": "Back to Home"
+	},
+	"theme": {
+		"light": "Light",
+		"dark": "Dark"
+	}
+}
