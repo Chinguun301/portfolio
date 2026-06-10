@@ -9,6 +9,8 @@ import {
 	type ReactNode,
 } from "react";
 import type { Locale } from "./config";
+import enMessages from "./en.json";
+import mnMessages from "./mn.json";
 
 interface I18nContextType {
 	locale: Locale;
@@ -18,7 +20,10 @@ interface I18nContextType {
 
 const I18nContext = createContext<I18nContextType | null>(null);
 
-const messagesCache: Record<string, Record<string, unknown>> = {};
+const messagesMap: Record<Locale, Record<string, unknown>> = {
+	en: enMessages as Record<string, unknown>,
+	mn: mnMessages as Record<string, unknown>,
+};
 
 function getNestedValue(obj: unknown, path: string): string | undefined {
 	return path.split(".").reduce((acc: unknown, key: string) => {
@@ -33,35 +38,26 @@ function getNestedValue(obj: unknown, path: string): string | undefined {
 	}, obj) as string | undefined;
 }
 
+/**
+ * Read initial locale from localStorage.
+ * Called once during useState initialization (lazy initializer),
+ * so it runs before the first render — no cascading setState.
+ */
+function getInitialLocale(): Locale {
+	if (typeof window === "undefined") return "en";
+	const stored = localStorage.getItem("locale");
+	return stored === "en" || stored === "mn" ? stored : "en";
+}
+
 export function I18nProvider({ children }: { children: ReactNode }) {
-	const [locale, setLocaleState] = useState<Locale>("en");
-	const [messages, setMessages] = useState<Record<string, unknown>>({});
+	const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
 
+	// Sync lang attribute to DOM whenever locale changes
 	useEffect(() => {
-		const stored = localStorage.getItem("locale");
-		const initial: Locale = stored === "en" || stored === "mn" ? stored : "en";
-		setLocaleState(initial);
-		document.documentElement.lang = initial;
-	}, []);
-
-	useEffect(() => {
-		const load = async () => {
-			if (messagesCache[locale]) {
-				setMessages(messagesCache[locale]);
-			} else {
-				try {
-					const mod = await import(`./${locale}.json`);
-					const msgs = mod.default || mod;
-					messagesCache[locale] = msgs;
-					setMessages(msgs);
-				} catch {
-					setMessages({});
-				}
-			}
-		};
-		load();
+		document.documentElement.lang = locale;
 	}, [locale]);
 
+	// Listen for locale changes from other tabs
 	useEffect(() => {
 		const handler = (e: StorageEvent) => {
 			if (e.key === "locale" && (e.newValue === "en" || e.newValue === "mn")) {
@@ -80,6 +76,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
 	const t = useCallback(
 		(path: string): string => {
+			const messages = messagesMap[locale];
 			const value = getNestedValue(messages, path);
 			if (value !== undefined) return value;
 			if (process.env.NODE_ENV === "development") {
@@ -87,7 +84,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 			}
 			return path;
 		},
-		[messages],
+		[locale],
 	);
 
 	return (

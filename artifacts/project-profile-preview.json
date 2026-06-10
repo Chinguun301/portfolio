@@ -1,0 +1,83 @@
+{
+  "projectName": "portfolio",
+  "description": "Modern personal portfolio website for a Frontend Developer built with Next.js 16, Tailwind CSS 4, Framer Motion, and i18n (EN/MN). Deployed on Vercel.",
+  "goals": [
+    { "id": "goal-product-1", "description": "Build a modern, polished personal portfolio website", "category": "product", "priority": "high", "status": "active" },
+    { "id": "goal-product-2", "description": "Conduct deep UI/UX research and analysis for a premium design", "category": "product", "priority": "high", "status": "active" },
+    { "id": "goal-product-3", "description": "Create an admin panel for content management", "category": "product", "priority": "medium", "status": "planned" },
+    { "id": "goal-quality-1", "description": "Achieve premium visual polish with animations and micro-interactions", "category": "quality", "priority": "high", "status": "active" }
+  ],
+  "techStack": {
+    "languages": [{ "name": "TypeScript", "version": "^5", "role": "primary" }],
+    "frameworks": [
+      { "name": "Next.js", "version": "16.2.9", "category": "framework" },
+      { "name": "React", "version": "19.2.4", "category": "ui-library" },
+      { "name": "Tailwind CSS", "version": "^4", "category": "styling" },
+      { "name": "Framer Motion", "version": "^12.40.0", "category": "animation" }
+    ],
+    "databases": [],
+    "buildTools": ["next build (Turbopack)", "next dev (Turbopack)"],
+    "packageManagers": ["npm"],
+    "infrastructure": [{ "name": "Vercel", "category": "hosting" }]
+  },
+  "architecture": {
+    "pattern": "Next.js App Router with client-side rendering, i18n provider pattern, and Framer Motion page transitions",
+    "modules": [
+      { "name": "app", "path": "src/app/", "description": "Next.js App Router pages and layouts" },
+      { "name": "components/layout", "path": "src/components/layout/", "description": "Structural layout: Header, Footer, LanguageSwitcher" },
+      { "name": "components/sections", "path": "src/components/sections/", "description": "FeaturedProjects, ProjectGallery" },
+      { "name": "components/ui", "path": "src/components/ui/", "description": "Reusable primitives: Section, SectionTitle, Button" },
+      { "name": "components/animations", "path": "src/components/animations/", "description": "PageTransition (AnimatePresence wrapper)" },
+      { "name": "lib/i18n", "path": "src/lib/i18n/", "description": "i18n with React Context, lazy JSON loading, localStorage" },
+      { "name": "lib", "path": "src/lib/", "description": "Shared utilities" },
+      { "name": "content", "path": "src/content/", "description": "Project data (3 entries)" }
+    ],
+    "entryPoints": ["src/app/layout.tsx", "src/app/page.tsx", "src/app/providers.tsx"],
+    "dataFlow": "Client-side rendering. I18nProvider loads JSON translations dynamically. Page transitions via AnimatePresence. Vercel Analytics fires globally."
+  },
+  "team": [{ "name": "Chinguun", "role": "Solo Developer", "responsibilities": ["Fullstack development", "UI/UX design", "Content management"] }],
+  "workflows": [
+    { "name": "Development", "description": "Next.js dev server with Turbopack", "steps": ["npm run dev"], "triggers": ["manual"] },
+    { "name": "Build", "description": "Production build", "steps": ["npm run build"], "triggers": ["manual", "vercel-deploy"] },
+    { "name": "Lint", "description": "Run ESLint", "steps": ["npm run lint"], "triggers": ["manual"] }
+  ],
+  "tools": {
+    "linting": [{ "name": "ESLint", "config": "eslint.config.mjs" }],
+    "testing": [],
+    "formatting": [],
+    "build": [
+      { "name": "Next.js", "config": "next.config.ts" },
+      { "name": "TypeScript", "config": "tsconfig.json" },
+      { "name": "TailwindCSS", "config": "postcss.config.mjs" },
+      { "name": "Turbopack", "config": "next.config.ts" }
+    ]
+  },
+  "services": [{ "name": "Vercel Analytics", "type": "analytics" }],
+  "externalIntegrations": [{ "name": "Framer Motion", "category": "animation-library" }],
+  "cicd": { "provider": null, "configPaths": [], "pipelines": [] },
+  "painPoints": [
+    { "id": "pp-design-1", "description": "Design and polish — making the portfolio look premium and polished is the main challenge", "severity": "high", "category": "design" }
+  ],
+  "bottlenecks": [],
+  "conventions": {
+    "naming": { "files": "kebab-case", "components": "PascalCase", "functions": "camelCase", "types": "PascalCase" },
+    "git": { "strategy": "Trunk-based (direct to main)", "commitStyle": "Conventional Commits" },
+    "codeStyle": { "quotes": "Double quotes", "importAlias": "@/*", "componentPattern": "'use client' directives" },
+    "importOrder": ["External packages first", "Internal via @/", "Relative for same-directory"],
+    "errorHandling": "notFound() for missing slugs, console.warn for missing translations",
+    "testingConventions": "none yet"
+  },
+  "repositories": [{ "url": null, "type": "git" }],
+  "claudeMdInstructions": [
+    "This is a Next.js 16 portfolio project with Tailwind CSS 4 and Framer Motion",
+    "Use Conventional Commits (feat:, fix:, chore:)",
+    "Trunk-based development on main branch",
+    "Manual releases via Vercel"
+  ],
+  "installedSkills": [],
+  "installedAgents": [],
+  "installedProcesses": [],
+  "createdAt": "2026-06-10T08:20:55.000Z",
+  "updatedAt": "2026-06-10T08:20:55.000Z",
+  "version": 1
+}

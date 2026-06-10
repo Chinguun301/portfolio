@@ -1,0 +1,74 @@
+[
+  {
+    "category": "SaaS Design",
+    "description": "Vercel's Geist design system uses a 10-step color scale with dedicated background, border, component, and text color tokens. Typography is organized into Heading (72-14), Copy (24-13), Label (20-12), and Button (16-12) categories, all available as Tailwind classes. The system emphasizes high contrast, grid-based layouts, and meticulous micro-interactions. Geist Sans + Geist Mono fonts are custom-designed for developer tools.",
+    "source": "https://vercel.com/geist/introduction",
+    "keyTakeaway": "Use Geist Sans/Mono as primary fonts, adopt the color scale system (Background 1/2, Colors 1-10), and implement the Grid-based layout approach."
+  },
+  {
+    "category": "SaaS Design",
+    "description": "Linear's design is monochromatic with a single blue accent, spring-based animations, and keyboard-first interactions. The UI is information-dense but never cluttered due to generous whitespace and consistent spacing. Loading states use skeleton animations that match the final layout.",
+    "source": "Linear Design — direct industry analysis",
+    "keyTakeaway": "Use spring physics (not linear timing) for all animations. Let content speak through generous whitespace. Use skeleton loaders that match final content shape."
+  },
+  {
+    "category": "SaaS Design",
+    "description": "Stripe's design language centers on documentation excellence with clear information layering (Overview → Getting Started → Core Concepts → API Reference). Brand color is deep indigo (#635BFF) with warm accents. Code samples always pair with explanations. Card patterns use subtle shadows and clean borders.",
+    "source": "Stripe Documentation — https://stripe.com/docs/stripe-apps/design",
+    "keyTakeaway": "Use information layering for project case studies. Present code samples with clean syntax highlighting paired with explanations. Use subtle shadows on cards."
+  },
+  {
+    "category": "SaaS Design",
+    "description": "Framer adopts a motion-first mindset — animation as communication, not decoration. AI-integrated design workflow generates layouts then refines them. Responsive by default with breakpoint-aware design. Physics-based motion (springs) over timing functions.",
+    "source": "https://framer.com/features",
+    "keyTakeaway": "Motion should communicate intent, not just decorate. Use spring-based physics. Design responsive-first with all breakpoints considered."
+  },
+  {
+    "category": "SaaS Design",
+    "description": "Apple's HIG emphasizes SF Pro typography with Dynamic Type (adapts to user preference), an 8px grid foundation, clear hierarchy through weight and size, and generous section-level whitespace (80-120px). Minimum 11pt for readable text.",
+    "source": "https://developer.apple.com/design/",
+    "keyTakeaway": "Use 4/8px grid foundation for all spacing. Apply clamp() for fluid typography. Maintain clear hierarchy through weight (not just size). Use generous section-level padding."
+  },
+  {
+    "category": "Portfolio Benchmarking",
+    "description": "Brittany Chiang's portfolio is the gold standard. Sections: About → Experience → Projects → Writing. Project cards show screenshot, title, description, tech stack tags, and links. Accessibility-first with skip-to-content link. Clean footer credits the tech stack used. Clear role title + company for each experience entry.",
+    "source": "https://brittanychiang.com/",
+    "keyTakeaway": "Mirror the section structure. Use consistent project card pattern with tech stack tags. Include resume download. Add accessibility features throughout."
+  },
+  {
+    "category": "Portfolio Benchmarking",
+    "description": "Josh W. Comeau's site excels at interactive learning with embedded demos in articles. Dark/light toggle with smooth transitions. Sound effects toggle for UI delight. Category-based content browsing. Newsletter CTA integrated naturally after content.",
+    "source": "https://joshwcomeau.com/",
+    "keyTakeaway": "Interactive demos build authority. Dark/light mode toggle should be smooth and visually pleasing. Organize content by category for discoverability."
+  },
+  {
+    "category": "Portfolio Benchmarking",
+    "description": "Rauno Freiberg's site is ultra-minimal — single-page with curated content. Design philosophy expressed as manifesto. Only 3 projects + newsletter + links. Builds brand through extreme curation.",
+    "source": "https://rauno.me/",
+    "keyTakeaway": "Quality over quantity in project curation. A design philosophy statement builds personal brand. Direct email contact builds connection."
+  },
+  {
+    "category": "Design Patterns",
+    "description": "Dark-first hybrid approach: dark mode as default with light toggle. Persist preference in localStorage, respect OS prefers-color-scheme. Use CSS variable transitions for smooth mode switching. Tailwind v4 dark: variant for conditional styling.",
+    "source": "Industry best practices + project audit",
+    "keyTakeaway": "Design dark mode first (developer audience). Implement theme toggle with smooth CSS transitions. Store preference in localStorage. Use color tokens not hardcoded values."
+  },
+  {
+    "category": "Design Patterns",
+    "description": "Typography: Geist Sans (headings/body) + Geist Mono (code). Use clamp() for fluid scaling. Max line length 65-75 characters. Tight leading for headings (1.05-1.15), comfortable for body (1.6-1.75). Bold weight for all headings.",
+    "source": "Vercel Geist Typography + Apple HIG",
+    "keyTakeaway": "Already have Geist fonts — good. Add fluid typography with clamp(). Respect optimal line length. Tighten heading leading."
+  },
+  {
+    "category": "Design Patterns",
+    "description": "Motion: Spring-based timing (stiffness: 200-300, damping: 25-30) for natural feel. Scroll-triggered reveals with IntersectionObserver. Micro-interactions on hover/tap (scale, translateY, border glow). Use transform and opacity only (GPU accelerated). Respect prefers-reduced-motion.",
+    "source": "Framer Motion docs + industry patterns",
+    "keyTakeaway": "Replace linear animations with spring physics. Add scroll-triggered reveals. Implement micro-interactions on interactive elements. Always respect reduced-motion preference."
+  },
+  {
+    "category": "Design Patterns",
+    "description": "Layout: Centered max-w-5xl with generous padding. 4/8px spacing grid. 12-column responsive grid. Breakpoints at 640/768/1024/1280px. Cards with 12px rounded corners and subtle hover elevation. Fixed header with backdrop blur on scroll.",
+    "source": "Geist grid + Tailwind responsive patterns",
+    "keyTakeaway": "Use consistent spacing grid. Card pattern: 12px rounded corners, border, hover elevation. Fixed header with blur backdrop. Responsive at all breakpoints."
+  }
+]

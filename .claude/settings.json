@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kill 36977)",
+      "Bash(npm run *)",
+      "Bash(kill 73325)"
+    ]
+  }
+}

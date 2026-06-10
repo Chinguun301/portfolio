@@ -1,0 +1,69 @@
+{
+  "recommendedProcesses": [
+    "gsd/discuss",
+    "gsd/plan",
+    "gsd/execute",
+    "gsd/verify",
+    "gsd/map-codebase",
+    "specializations/ux-ui-design/user-research",
+    "specializations/ux-ui-design/pixel-perfect-implementation",
+    "specializations/web-development/nextjs-fullstack-app",
+    "specializations/web-development/tailwind-design-system",
+    "specializations/web-development/vercel-deployment"
+  ],
+  "recommendedSkills": [
+    "rpiv-pi:frontend-design",
+    "rpiv-pi:design",
+    "rpiv-pi:blueprint",
+    "rpiv-pi:research",
+    "rpiv-pi:explore",
+    "rpiv-pi:commit",
+    "rpiv-pi:code-review",
+    "rpiv-pi:changelog"
+  ],
+  "recommendedAgents": [],
+  "recommendedMethodology": "iterative-convergence",
+  "justifications": {
+    "gsd/discuss": "Use for discussing new features and design decisions",
+    "gsd/plan": "Plan feature implementation with structured phases",
+    "gsd/execute": "Execute implementation plans slice by slice",
+    "gsd/verify": "Verify completed work against requirements",
+    "gsd/map-codebase": "Map the codebase for future reference",
+    "specializations/ux-ui-design/user-research": "Core need - user wants deep UI/UX research for premium design",
+    "specializations/ux-ui-design/pixel-perfect-implementation": "Match the polish goal with pixel-perfect implementation",
+    "specializations/web-development/nextjs-fullstack-app": "Next.js 16 is the primary framework",
+    "specializations/web-development/tailwind-design-system": "Tailwind CSS 4 is the styling system",
+    "specializations/web-development/vercel-deployment": "Vercel is the deployment platform",
+    "rpiv-pi:frontend-design": "UI/UX design and analysis for the portfolio",
+    "rpiv-pi:design": "Design complex features with vertical slices",
+    "rpiv-pi:blueprint": "Plan complex multi-component features",
+    "rpiv-pi:research": "Research UI/UX patterns and solutions",
+    "rpiv-pi:explore": "Explore solution options for design challenges",
+    "rpiv-pi:commit": "Create structured git commits",
+    "rpiv-pi:code-review": "Review code changes for quality",
+    "rpiv-pi:changelog": "Keep changelog updated"
+  },
+  "prioritized": {
+    "mustHave": [
+      "gsd/discuss",
+      "gsd/plan",
+      "gsd/execute",
+      "rpiv-pi:frontend-design",
+      "rpiv-pi:commit"
+    ],
+    "niceToHave": [
+      "gsd/verify",
+      "rpiv-pi:code-review",
+      "rpiv-pi:changelog",
+      "specializations/ux-ui-design/user-research",
+      "specializations/web-development/nextjs-fullstack-app"
+    ]
+  },
+  "remediations": [
+    {
+      "painPointId": "pp-design-1",
+      "recommendation": "Use frontend-design skill + ux-ui-design/user-research process for comprehensive UI/UX analysis and premium design implementation",
+      "process": "specializations/ux-ui-design/user-research"
+    }
+  ]
+}
