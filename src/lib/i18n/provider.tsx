@@ -3,9 +3,9 @@
 import {
 	createContext,
 	useContext,
-	useState,
 	useCallback,
 	useEffect,
+	useSyncExternalStore,
 	type ReactNode,
 } from "react";
 import type { Locale } from "./config";
@@ -38,40 +38,47 @@ function getNestedValue(obj: unknown, path: string): string | undefined {
 	}, obj) as string | undefined;
 }
 
-/**
- * Read initial locale from localStorage.
- * Called once during useState initialization (lazy initializer),
- * so it runs before the first render — no cascading setState.
- */
-function getInitialLocale(): Locale {
-	if (typeof window === "undefined") return "en";
-	const stored = localStorage.getItem("locale");
-	return stored === "en" || stored === "mn" ? stored : "en";
+/** Read locale from cookie set by inline script before hydration */
+function getLocaleFromCookie(): Locale {
+	if (typeof document === "undefined") return "en";
+	try {
+		const match = document.cookie.match(/(?:^|; )locale=([^;]+)/);
+		if (match) {
+			const val = match[1] as Locale;
+			if (val === "en" || val === "mn") return val;
+		}
+	} catch {}
+	return "en";
+}
+
+function subscribeToCookie(cb: () => void): () => void {
+	window.addEventListener("storage", cb);
+	return () => window.removeEventListener("storage", cb);
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-	const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
+	// useSyncExternalStore ensures server & client agree on first render,
+	// then hydrates with the real value from the cookie without mismatch.
+	const locale = useSyncExternalStore(
+		subscribeToCookie,
+		getLocaleFromCookie,
+		() => "en" as Locale,
+	);
 
-	// Sync lang attribute to DOM whenever locale changes
+	// Sync lang attribute + localStorage whenever locale changes
 	useEffect(() => {
 		document.documentElement.lang = locale;
+		try {
+			localStorage.setItem("locale", locale);
+		} catch {}
 	}, [locale]);
 
-	// Listen for locale changes from other tabs
-	useEffect(() => {
-		const handler = (e: StorageEvent) => {
-			if (e.key === "locale" && (e.newValue === "en" || e.newValue === "mn")) {
-				setLocaleState(e.newValue);
-			}
-		};
-		window.addEventListener("storage", handler);
-		return () => window.removeEventListener("storage", handler);
-	}, []);
-
 	const setLocale = useCallback((newLocale: Locale) => {
-		localStorage.setItem("locale", newLocale);
+		try {
+			localStorage.setItem("locale", newLocale);
+			document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
+		} catch {}
 		document.documentElement.lang = newLocale;
-		setLocaleState(newLocale);
 	}, []);
 
 	const t = useCallback(

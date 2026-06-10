@@ -3,7 +3,10 @@
     "allow": [
       "Bash(kill 36977)",
       "Bash(npm run *)",
-      "Bash(kill 73325)"
+      "Bash(kill 73325)",
+      "Bash(lsof -ti:3001)",
+      "Bash(xargs kill -9)",
+      "Bash(kill -9 86267)"
     ]
   }
 }

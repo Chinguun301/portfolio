@@ -39,27 +39,32 @@ function LoginForm() {
 	const [form, setForm] = useState<FormState>({ email: "", password: "" });
 	const [error, setError] = useState<PageError | null>(null);
 	const [loading, setLoading] = useState(false);
+	const [mode, setMode] = useState<"login" | "signup">("login");
+	const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
 	const updateField = useCallback(
 		(field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
 			setForm((prev) => ({ ...prev, [field]: e.target.value }));
 			setError(null);
+			setSuccessMsg(null);
 		},
 		[],
 	);
 
-	const handleLogin = useCallback(
+	const handleSubmit = useCallback(
 		async (e: FormEvent) => {
 			e.preventDefault();
 			setError(null);
+			setSuccessMsg(null);
 
-			// Basic validation
 			if (!form.email.trim()) {
 				setError({ message: "Email is required." });
 				return;
 			}
-			if (!form.password) {
-				setError({ message: "Password is required." });
+			if (form.password.length < 6) {
+				setError({
+					message: "Password must be at least 6 characters.",
+				});
 				return;
 			}
 
@@ -71,6 +76,28 @@ function LoginForm() {
 					process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 				);
 
+				if (mode === "signup") {
+					// Sign up — creates user in Supabase Auth
+					const { error: signUpError } = await supabase.auth.signUp({
+						email: form.email.trim(),
+						password: form.password,
+					});
+
+					if (signUpError) {
+						setError({ message: signUpError.message });
+						setLoading(false);
+						return;
+					}
+
+					setSuccessMsg(
+						"Account created! Check your email for a confirmation link, then sign in.",
+					);
+					setMode("login");
+					setLoading(false);
+					return;
+				}
+
+				// Login
 				const { error: authError } = await supabase.auth.signInWithPassword({
 					email: form.email.trim(),
 					password: form.password,
@@ -87,7 +114,6 @@ function LoginForm() {
 					return;
 				}
 
-				// Successful login — redirect
 				router.push(redirectTo);
 				router.refresh();
 			} catch {
@@ -97,13 +123,12 @@ function LoginForm() {
 				setLoading(false);
 			}
 		},
-		[form, router, redirectTo],
+		[form, router, redirectTo, mode],
 	);
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-neutral-50 p-4 dark:bg-neutral-950">
 			<div className="w-full max-w-sm">
-				{/* Header */}
 				<div className="mb-8 text-center">
 					<div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-900 dark:bg-neutral-100">
 						<svg
@@ -124,18 +149,26 @@ function LoginForm() {
 						</svg>
 					</div>
 					<h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-						Admin Login
+						{mode === "login" ? "Admin Login" : "Create Admin"}
 					</h1>
 					<p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-						Sign in to manage your portfolio
+						{mode === "login"
+							? "Sign in to manage your portfolio"
+							: "Create your admin account"}
 					</p>
 				</div>
 
 				<Card className="!p-6">
-					<form onSubmit={handleLogin} className="space-y-4">
+					<form onSubmit={handleSubmit} className="space-y-4">
 						{error && (
 							<div className="rounded-lg border border-error-200 bg-error-50 px-4 py-3 text-sm text-error-700 dark:border-error-800 dark:bg-error-950/30 dark:text-error-400">
 								{error.message}
+							</div>
+						)}
+
+						{successMsg && (
+							<div className="rounded-lg border border-success-200 bg-success-50 px-4 py-3 text-sm text-success-700 dark:border-success-800 dark:bg-success-950/30 dark:text-success-400">
+								{successMsg}
 							</div>
 						)}
 
@@ -153,8 +186,12 @@ function LoginForm() {
 						<Input
 							label="Password"
 							type="password"
-							placeholder="••••••••"
-							autoComplete="current-password"
+							placeholder={
+								mode === "signup" ? "At least 6 characters" : "••••••••"
+							}
+							autoComplete={
+								mode === "signup" ? "new-password" : "current-password"
+							}
 							value={form.password}
 							onChange={updateField("password")}
 							disabled={loading}
@@ -166,9 +203,41 @@ function LoginForm() {
 							className="w-full"
 							size="lg"
 						>
-							{loading ? "Signing in..." : "Sign In"}
+							{loading
+								? "Please wait..."
+								: mode === "login"
+									? "Sign In"
+									: "Create Account"}
 						</Button>
 					</form>
+
+					<div className="mt-4 text-center text-xs text-neutral-400 dark:text-neutral-500">
+						{mode === "login" ? (
+							<button
+								type="button"
+								onClick={() => {
+									setMode("signup");
+									setError(null);
+									setSuccessMsg(null);
+								}}
+								className="underline underline-offset-2 hover:text-neutral-600 dark:hover:text-neutral-300"
+							>
+								No account? Create one
+							</button>
+						) : (
+							<button
+								type="button"
+								onClick={() => {
+									setMode("login");
+									setError(null);
+									setSuccessMsg(null);
+								}}
+								className="underline underline-offset-2 hover:text-neutral-600 dark:hover:text-neutral-300"
+							>
+								Already have an account? Sign in
+							</button>
+						)}
+					</div>
 				</Card>
 
 				<p className="mt-6 text-center text-xs text-neutral-400 dark:text-neutral-500">

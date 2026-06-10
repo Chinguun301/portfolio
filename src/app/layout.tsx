@@ -20,6 +20,14 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chinguun.com";
 const authorName = "Chinguun Vanchinsuren";
 const siteName = "Chinguun | Frontend Engineer";
 
+let metadataBase: URL | undefined;
+try {
+	metadataBase = new URL(siteUrl);
+} catch {
+	// Fallback used when SITE_URL env var is invalid or missing
+	metadataBase = undefined;
+}
+
 export const viewport: Viewport = {
 	themeColor: [
 		{ media: "(prefers-color-scheme: light)", color: "#ffffff" },
@@ -31,7 +39,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-	metadataBase: new URL(siteUrl),
+	...(metadataBase ? { metadataBase } : {}),
 	title: {
 		default: siteName,
 		template: `%s | ${authorName}`,
@@ -128,7 +136,7 @@ const jsonLd = {
 	],
 };
 
-/* Inline script to prevent dark mode flash before React hydration */
+/* Inline scripts to prevent flash before React hydration */
 const darkModeScript = `
   (function() {
     try {
@@ -136,6 +144,19 @@ const darkModeScript = `
       var dark = theme === 'dark' || (theme === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
       if (dark) document.documentElement.classList.add('dark');
       else document.documentElement.classList.remove('dark');
+    } catch(e) {}
+  })();
+`;
+
+/* Set locale cookie and lang attr before hydration so server + client match */
+const localeScript = `
+  (function() {
+    try {
+      var locale = localStorage.getItem('locale');
+      if (locale === 'en' || locale === 'mn') {
+        document.cookie = 'locale=' + locale + ';path=/;max-age=31536000';
+        document.documentElement.lang = locale;
+      }
     } catch(e) {}
   })();
 `;
@@ -157,6 +178,7 @@ export default function RootLayout({
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 				/>
 				<script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
+				<script dangerouslySetInnerHTML={{ __html: localeScript }} />
 			</head>
 			<body className="min-h-full flex flex-col bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-250">
 				<Providers>
